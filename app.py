@@ -9,6 +9,8 @@ from datetime import datetime, timedelta
 from bson import ObjectId
 from functools import wraps
 
+from graphene import ObjectType, String, Schema, Field,List, ID
+
 
 
 app = Flask(__name__)
@@ -21,6 +23,55 @@ CORS(app)
 app.config['SECRET_KEY'] = "randomsecretkey"
 app.config["MONGO_URI"] = "mongodb://localhost:27017/myDatabase"
 mongo = PyMongo(app)
+
+
+
+
+#GraphQL Schema
+class User(ObjectType):
+    firstName = String()
+    lastName = String()
+    # email = String()
+    # password = String()
+    def resolve_firstName(parent,  info):
+        return parent["firstName"]
+    def resolve_lastName(parent,  info):
+        return parent["lastName"]
+
+
+class Query(ObjectType):
+    user = Field(User) 
+    def resolve_user(parent,  info):
+
+        # here how to get varibles like ID by which we can  fetch the user by using that id 
+        return {"firstName" : "ankush", "lastName": "kumar" }
+
+
+   
+
+schema = Schema(query=Query)
+# print(schema)
+
+
+
+
+@app.route("/graphql")
+def grapphql():
+    query_string = '''
+    query getUser{  
+        user
+        {
+            firstName
+            lastName
+        } 
+     }
+     '''
+    result = schema.execute(query_string)
+    # print(result)
+    print(result.data['user'])
+    
+    return result.data['user']
+
 
 
 
@@ -55,6 +106,8 @@ def token_required(f):
         return f(current_user, *args, **kwargs)
 
     return decorated
+
+
 
 # test route
 @app.route('/')
