@@ -8,5 +8,16 @@ class UserLogic():
             print(user)
             return user
 
+    @staticmethod
+    def create(first_name, last_name, email, password):
+        user =  UserData.create(first_name, last_name, email, password)
+        # userObject = {
+        #     "first_name" : user.first_name,
+        #     "last_name" : user.last_name,
+        #     "email" : user.email,
+        #     "password" : user.password,
+        # }
+        
+        return user
 
          
