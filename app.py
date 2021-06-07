@@ -10,7 +10,10 @@ from bson import ObjectId
 from functools import wraps
 
 from graphene import ObjectType, String, Schema, Field,List, ID
+from flask_graphql import GraphQLView
 
+from src.user.api.schema import User
+from src.user.api.query import UserQuery
 
 
 app = Flask(__name__)
@@ -27,50 +30,17 @@ mongo = PyMongo(app)
 
 
 
-#GraphQL Schema
-class User(ObjectType):
-    firstName = String()
-    lastName = String()
-    # email = String()
-    # password = String()
-    def resolve_firstName(parent,  info):
-        return parent["firstName"]
-    def resolve_lastName(parent,  info):
-        return parent["lastName"]
 
-
-class Query(ObjectType):
-    user = Field(User) 
-    def resolve_user(parent,  info):
-
-        # here how to get varibles like ID by which we can  fetch the user by using that id 
-        return {"firstName" : "ankush", "lastName": "kumar" }
-
-
-   
-
-schema = Schema(query=Query)
+schema = Schema(query=UserQuery)
 # print(schema)
 
+app.add_url_rule('/graphql', view_func=GraphQLView.as_view(
+    'graphql-query',
+    schema=schema, graphiql=True
+))
 
 
 
-@app.route("/graphql")
-def grapphql():
-    query_string = '''
-    query getUser{  
-        user
-        {
-            firstName
-            lastName
-        } 
-     }
-     '''
-    result = schema.execute(query_string)
-    # print(result)
-    print(result.data['user'])
-    
-    return result.data['user']
 
 
 
