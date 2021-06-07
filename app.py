@@ -7,10 +7,12 @@ from datetime import datetime, timedelta
 # from flask_bcrypt import Bcrypt
 from bson import ObjectId
 from functools import wraps
+from graphene.types import mutation
 from mongoengine import connect
 from graphene import ObjectType, String, Schema, Field,List, ID
 from flask_graphql import GraphQLView
 from src.user.api.query import UserQuery
+from src.user.api.mutation import MyMutations
 from src.user.data.model import User
 
 
@@ -19,16 +21,13 @@ CORS(app)
 # bcrypt = Bcrypt(app)
 
 
-
 app.config['SECRET_KEY'] = "randomsecretkey"
 
 connect(host="mongodb://127.0.0.1:27017/user_service_database")
 
 
 
-
-
-schema = Schema(query=UserQuery)
+schema = Schema(query=UserQuery, mutation=MyMutations)
 # print(schema)
 
 app.add_url_rule('/graphql', view_func=GraphQLView.as_view(
