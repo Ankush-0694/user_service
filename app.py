@@ -15,6 +15,8 @@ from src.user.api.query import UserQuery
 from src.user.api.mutation import MyMutations
 from src.user.data.model import User
 
+from graphene_federation import build_schema
+
 
 app = Flask(__name__)
 CORS(app)
@@ -27,13 +29,15 @@ connect(host="mongodb://127.0.0.1:27017/user_service_database")
 
 
 
-schema = Schema(query=UserQuery, mutation=MyMutations)
+schema = build_schema(query=UserQuery, mutation=MyMutations)
 # print(schema)
 
 app.add_url_rule('/graphql', view_func=GraphQLView.as_view(
     'graphql-query',
     schema=schema, graphiql=True
 ))
+# app.add_url_rule('/graphql/batch', view_func=GraphQLView.as_view('graphql', schema=schema, batch=True))
+
 
 
 
