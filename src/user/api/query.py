@@ -6,7 +6,6 @@ from src.user.logic.logic import UserLogic
 
 
 
-
 class UserQuery(ObjectType):
     user = Field(User, email=String()) 
     def resolve_user(self,  _info , email):

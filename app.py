@@ -1,16 +1,13 @@
 import re
 from flask import Flask, render_template, request, json, make_response, jsonify
 from flask_cors import CORS
-# from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt import jwt
-from datetime import datetime, timedelta
-# from flask_bcrypt import Bcrypt
 from bson import ObjectId
 from functools import wraps
 from graphene.types import mutation
 from mongoengine import connect
-from graphene import ObjectType, String, Schema, Field,List, ID
 from flask_graphql import GraphQLView
+
 from src.user.api.query import UserQuery
 from src.user.api.mutation import MyMutations
 from src.user.data.model import User
@@ -20,7 +17,7 @@ from graphene_federation import build_schema
 
 app = Flask(__name__)
 CORS(app)
-# bcrypt = Bcrypt(app)
+
 
 
 app.config['SECRET_KEY'] = "randomsecretkey"
@@ -36,7 +33,6 @@ app.add_url_rule('/graphql', view_func=GraphQLView.as_view(
     'graphql-query',
     schema=schema, graphiql=True
 ))
-# app.add_url_rule('/graphql/batch', view_func=GraphQLView.as_view('graphql', schema=schema, batch=True))
 
 
 
