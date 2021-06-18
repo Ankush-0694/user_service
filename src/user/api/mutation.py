@@ -16,9 +16,18 @@ class createUser(Mutation):
         ok = True
         user =  UserLogic.create(first_name, last_name, email, password)
         print(user)
-        return createUser(add_user=user) #### can we return just user object like nodejs
+        return createUser(add_user=user, ok=ok) #### can we return just user object like nodejs
 
-        ## mutation will be below , in below mutation can we just return firstName without using addUser object
+       
+
+
+
+class UserMutations(ObjectType):
+    create_user = createUser.Field()
+
+
+
+ ## mutation will be below , in below mutation can we just return firstName without using addUser object
         # mutation{
         #     createUser(email:"abbb", firstName:"b", lastName:"c", password:"d"){
         #         addUser{
@@ -28,8 +37,3 @@ class createUser(Mutation):
         #         }
         #     }
         # }
-
-
-
-class MyMutations(ObjectType):
-    create_user = createUser.Field()
