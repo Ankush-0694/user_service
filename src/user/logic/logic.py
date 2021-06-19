@@ -9,15 +9,14 @@ class UserLogic():
             return user
 
     @staticmethod
-    def create(first_name, last_name, email, password):
-        user =  UserData.create(first_name, last_name, email, password)
-        # userObject = {
-        #     "first_name" : user.first_name,
-        #     "last_name" : user.last_name,
-        #     "email" : user.email,
-        #     "password" : user.password,
-        # }
+    def create(first_name, last_name, email, password, role):
+        user =  UserData.create(first_name, last_name, email, password, role)
+
+        # need to edit user object before sending to the client or maybe not
+        print(user.role.value)
+        user.role = user.role.value
         
         return user
 
          
+

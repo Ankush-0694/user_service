@@ -7,14 +7,21 @@ class UserData():
         return user
 
     @staticmethod
-    def create(first_name, last_name, email, password):
+    def create(first_name, last_name, email, password, role):
         # print(first_name)
         user = User(
             first_name=first_name, 
             last_name =last_name, 
             email = email, 
-            password = password
+            password = password,
+            role = role
         )
+        
+       
+
         # print(user)
-        return user.save()
+        new_user = user.save()
+       
+        
+        return new_user
         

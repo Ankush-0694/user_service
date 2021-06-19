@@ -10,12 +10,13 @@ class createUser(Mutation):
         last_name = String()
         email = String()
         password = String()
+        role=String(default_value="user")
     ok = Boolean()  # why it is recommended
     add_user = Field(User)
-    def mutate(self, _info, first_name, last_name, email, password):
+    def mutate(self, _info, first_name, last_name, email, password, role):
         ok = True
-        user =  UserLogic.create(first_name, last_name, email, password)
-        print(user)
+        user =  UserLogic.create(first_name, last_name, email, password,role)
+        # print(user)
         return createUser(add_user=user, ok=ok) #### can we return just user object like nodejs
 
        
