@@ -3,25 +3,25 @@ from flask_cors import CORS
 from graphene.types.objecttype import ObjectType
 from mongoengine import connect
 from flask_graphql import GraphQLView
+from src.admin.api.query import AdminQuery
 from src.user.api.query import UserQuery
 from src.user.api.mutation import UserMutations
-from src.user.data.model import User
+from src.admin.api.mutation import AdminMutations
 from graphene_federation import build_schema
-
+from Constants.constants import *
+from src.vendor.api.mutation import VendorMutations
+from src.vendor.api.query import VendorQuery
 
 app = Flask(__name__)
 CORS(app)
 
-
-
 app.config['SECRET_KEY'] = "randomsecretkey"
+connect(host=mongo_url)
 
-connect(host="mongodb://127.0.0.1:27017/user_service_database")
-
-class Query(UserQuery , ObjectType):
+class Query(UserQuery ,AdminQuery,VendorQuery,   ObjectType):
     pass
 
-class Mutation(UserMutations, ObjectType):
+class Mutation(UserMutations, AdminMutations, VendorMutations,  ObjectType):
     pass
 
 
@@ -43,6 +43,13 @@ def hello_world():
     return 'Hello, World!'
 
 
+ 
+if __name__ == "__main__":
+    app.run(debug=True , port = 4000)
+
+
+
+
 # #signup route
 # @app.route('/auth/signup', methods=["POST"])
 # def Signup():
@@ -61,10 +68,5 @@ def hello_world():
 
 #         return make_response('Successfully registered.', 201)
 
- 
-if __name__ == "__main__":
-    app.run(debug=True , port = 4000)
 
-
-
-
+    # globals()[sys.argv[1]](sys.argv[2],sys.argv[3], sys.argv[4], sys.argv[5]) 

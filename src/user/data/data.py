@@ -1,27 +1,27 @@
-from src.user.data.model import User
+from src.user.data.model import UserModel
 
 class UserData():
     @staticmethod
     def get(email):
-        user = User.objects(email=email)
+        user = UserModel.objects(email=email).first()
+        print(user)    
         return user
 
     @staticmethod
     def create(first_name, last_name, email, password, role):
-        # print(first_name)
-        user = User(
+        user = UserModel(
             first_name=first_name, 
             last_name =last_name, 
             email = email, 
             password = password,
             role = role
         )
-        
-       
+        return user.save()
 
-        # print(user)
-        new_user = user.save()
-       
+    
+
+
+
         
-        return new_user
+        
         
