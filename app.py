@@ -15,8 +15,10 @@ from src.vendor.api.query import VendorQuery
 app = Flask(__name__)
 CORS(app)
 
-app.config['SECRET_KEY'] = "randomsecretkey"
+app.config['SECRET_KEY'] = secret_key
+
 connect(host=mongo_url)
+
 
 class Query(UserQuery ,AdminQuery,VendorQuery,   ObjectType):
     pass
@@ -24,29 +26,20 @@ class Query(UserQuery ,AdminQuery,VendorQuery,   ObjectType):
 class Mutation(UserMutations, AdminMutations, VendorMutations,  ObjectType):
     pass
 
-
-
 schema = build_schema(query=Query, mutation=Mutation)
-# print(schema)
 
 app.add_url_rule('/graphql', view_func=GraphQLView.as_view(
     'graphql-query',
     schema=schema, graphiql=True
 ))
 
-
-
-
 # test route
 @app.route('/')
 def hello_world():
     return 'Hello, World!'
-
-
  
 if __name__ == "__main__":
     app.run(debug=True , port = 4000)
-
 
 
 
