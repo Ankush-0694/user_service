@@ -28,6 +28,9 @@ class Mutation(UserMutations, AdminMutations, VendorMutations,  ObjectType):
 
 schema = build_schema(query=Query, mutation=Mutation)
 
+
+
+
 app.add_url_rule('/graphql', view_func=GraphQLView.as_view(
     'graphql-query',
     schema=schema, graphiql=True

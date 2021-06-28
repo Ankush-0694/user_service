@@ -5,13 +5,13 @@ from mongoengine.fields import  StringField, EmailField
 
 def _not_empty(val):
     if not val:
-        raise ValidationError('value can not be empty')
+        raise ValidationError('Value can not be empty')
 
 class UserModel(Document):
     first_name = StringField(validation=_not_empty)
-    last_name = StringField()
-    email= StringField()
-    password = StringField()
+    last_name = StringField(validation=_not_empty)
+    email= StringField(validation=_not_empty)
+    password = StringField(validation=_not_empty)
     role = StringField()
 
 
