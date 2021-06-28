@@ -3,14 +3,14 @@ from flask_cors import CORS
 from graphene.types.objecttype import ObjectType
 from mongoengine import connect
 from flask_graphql import GraphQLView
-from src.admin.api.query import AdminQuery
-from src.user.api.query import UserQuery
-from src.user.api.mutation import UserMutations
-from src.admin.api.mutation import AdminMutations
 from graphene_federation import build_schema
 from Constants.constants import *
-from src.vendor.api.mutation import VendorMutations
-from src.vendor.api.query import VendorQuery
+from src.user.api.query import UserQuery
+from src.user.api.mutation import UserMutations
+from src.user.api.query import AdminQuery
+from src.user.api.mutation import AdminMutations
+from src.user.api.mutation import VendorMutations
+from src.user.api.query import VendorQuery
 
 app = Flask(__name__)
 CORS(app)
