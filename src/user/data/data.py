@@ -8,6 +8,12 @@ class UserData():
         user = UserModel.objects(email=email).first()
         print(user)    
         return user
+    
+    @staticmethod
+    def get_all_users(role):
+        user = UserModel.objects(role=role)
+        print(user)    
+        return user
 
     @staticmethod
     def create(first_name, last_name, email, password, role):
@@ -19,7 +25,25 @@ class UserData():
             role = role
         )
         return user.save()
+    @staticmethod
+    def update(first_name, last_name, email, password, role):
+        user  = UserModel.objects(email=email).first()
+        user.update(
+            set__first_name = first_name , 
+            set__last_name=last_name,
+            set__role=role
+        )
+        user.reload()
+        # print(admin.first_name)
+        return user
 
+
+    @staticmethod
+    def delete(email):    
+        user = UserModel.objects(email=email).first()
+        user.delete()
+        print(user)
+        return user
     
 
 
@@ -125,4 +149,10 @@ class VendorData():
         vendor.delete()
         print(vendor)
         return vendor
-        
+
+
+class AuthData():
+    @staticmethod
+    def get(email):
+        me = UserModel.objects(email=email).first()
+        return me

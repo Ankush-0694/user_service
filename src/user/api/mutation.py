@@ -7,6 +7,9 @@ from src.user.logic.logic import AdminLogic
 from src.user.logic.logic import UserLogic
 
 
+
+
+
 class CreateUser(Mutation):
     user = Field(UserField)
     ok=Boolean();
@@ -15,33 +18,45 @@ class CreateUser(Mutation):
         last_name = String()
         email = String()
         password = String()
-        role=String(default_value="user")
+        role=String(default_value="customer")
     
     def mutate(self, _info, first_name, last_name, email, password, role):
         ok=True
         created_user =  UserLogic.create(first_name, last_name, email, password,role)
         return CreateUser(user=created_user, ok=ok) 
 
+class UpdateUser(Mutation):
+    user  = Field(UserField)
+    ok=Boolean()
+    class Arguments:
+        first_name = String()
+        last_name = String()
+        email = String()
+        password = String()
+        role=String(default_value="user")
+    def mutate(self, _info, first_name, last_name, email, password, role):     
+        print(_info.context.headers.get("User")) 
+        ok=True
+        updated_user = UserLogic.update(first_name, last_name , email, password ,role  )
+        return UpdateUser(user=updated_user, ok=ok)
+
+
+class DeleteUser(Mutation):
+    user = Field(UserField)
+    ok=Boolean()
+    class Arguments:  
+        email = String()
+    def mutate(self, _info, email):
+        ok=True
+        deleted_user = UserLogic.delete( email)
+        return DeleteUser(user=deleted_user, ok=ok)
+
+
 
 class UserMutations(ObjectType):
     create_user = CreateUser.Field()
-
-
-
-
-def login_middleware(header_user) :
-    if header_user == 'null':
-        raise PermissionError("You are not logged In")
-    else:
-        pass
-
-# def check_role_admin(header_user):
-#     userId = json.loads(header_user)
-#     userObjectID = ObjectId(userId["public_id"])
-#     print(userObjectID)
-#     role = AdminData.check_admin(userObjectID)
-#     if role!="admin":
-#         raise PermissionError("You Are not an admin")
+    update_user = UpdateUser.Field()
+    delete_user = DeleteUser.Field()
 
 
 
@@ -57,6 +72,7 @@ class CreateAdmin(Mutation):
         password = String()
         role=String(default_value="admin")
     def mutate(self, _info, first_name, last_name, email, password, role):
+        print(_info.context.headers.get("User"))
         ok=True
         created_admin = AdminLogic.create_admin(
             first_name, last_name , email, password ,role 
@@ -80,12 +96,12 @@ class UpdateAdmin(Mutation):
 
         # if _info.context.headers.get("User") == "null":
         #     raise PermissionError("You are not logged In")
-        login_middleware(_info.context.headers.get("User"))
-
-
+        # login_middleware(_info.context.headers.get("User"))
         ok=True
         updated_admin = AdminLogic.update_admin(first_name, last_name , email, password ,role  )
         return UpdateAdmin(admin=updated_admin, ok=ok) 
+
+
 
 
 

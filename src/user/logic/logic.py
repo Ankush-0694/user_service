@@ -1,26 +1,39 @@
-from src.user.data.data import AdminData
+from src.user.data.data import AdminData, AuthData
 from src.user.data.data import  UserData
-from Constants.constants import *
-import jwt
 from src.user.data.data import VendorData
+from src.utils.jwt import generate_token
+
+
+
+
 
 class UserLogic():
     @staticmethod
     def get(email):  
         user = UserData.get(email)
         return user
+    
+    @staticmethod
+    def get_all_users(role):  
+        user = UserData.get_all_users(role)
+        return user
 
     @staticmethod
     def create(first_name, last_name, email, password, role):
         user =  UserData.create(first_name, last_name, email, password, role)
         return user
+
+    @staticmethod
+    def update(first_name, last_name, email, password, role):
+        user = UserData.update(first_name, last_name, email, password, role)
+        return user
+
+    @staticmethod
+    def delete(email):
+        user = UserData.delete(email)
+        return user
    
          
-
-    
-
-
-
 
 class AdminLogic():
     @staticmethod
@@ -44,23 +57,14 @@ class AdminLogic():
     def delete_admin(email):
         admin = AdminData.delete_admin(email)
         return admin
-
-
-    # helper function for generating jwt
-    @staticmethod 
-    def generate_token(id):
-        token = jwt.encode({
-            'public_id': id,
-        }, secret_key, algorithm="HS256")
-        token = token.decode('UTF-8')
-        return token
-      
+    
     
     @staticmethod
     def admin_login(email, password):
         admin = AdminData.admin_login(email, password)
         # print(type(str(user.id)))
-        token = AdminLogic.generate_token(str(admin.id))
+        # token = generate_token(str(admin.id))
+        token = generate_token(email)
         print(token)
         return token;
 
@@ -86,3 +90,10 @@ class VendorLogic():
     def delete(email):
         vendor = VendorData.delete(email)
         return vendor
+
+
+class AuthLogic():
+    @staticmethod
+    def get(email):
+        me = AuthData.get(email)
+        return me
