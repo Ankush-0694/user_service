@@ -1,2 +1,4 @@
 venv/
 Tutorials/
+Constants/
+__pycache__/
