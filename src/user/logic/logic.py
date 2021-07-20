@@ -1,7 +1,6 @@
-from src.user.data.data import  AuthData
+from src.user.data.data import  AuthData, VendorData
 from src.user.data.data import  UserData
 from src.utils.jwt import generate_token
-
 
 
 
@@ -31,8 +30,15 @@ class UserLogic():
     def delete(email):
         user = UserData.delete(email)
         return user
-   
-         
+
+
+class VendorLogic():
+    def create(email, role):
+        vendor = VendorData.create(email,role)
+        return vendor
+
+
+          
 
 class AuthLogic():
     @staticmethod
