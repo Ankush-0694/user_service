@@ -4,6 +4,7 @@ from src.user.logic.logic import  AuthLogic
 from src.user.api.Fields import UserField
 from src.user.logic.logic import UserLogic
 
+
 class UserQuery(ObjectType):
     get_user_by_email = Field(UserField, email=String()) 
     def resolve_get_user_by_email(self,  _info , email):

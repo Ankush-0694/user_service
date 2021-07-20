@@ -2,7 +2,7 @@ from graphene.types.scalars import Boolean
 from graphene import ObjectType, Mutation, String, Field
 from src.user.api.Fields import UserField
 from bson.objectid import ObjectId
-from src.user.logic.logic import UserLogic
+from src.user.logic.logic import UserLogic, VendorLogic
 
 
 
@@ -58,7 +58,7 @@ class DeleteUser(Mutation):
 
 # this will be added as a user login
 
-# class AdminLogin(Mutation):
+# class UserLogin(Mutation):
 #     token = String()
 #     ok=Boolean()
 #     class Arguments:
@@ -67,8 +67,8 @@ class DeleteUser(Mutation):
 #     def mutate(self, _info, email, password):
 #         # print(_info.context)
 #         ok = True
-#         generated_token = AdminLogic.admin_login(email, password)
-#         return AdminLogin(token=generated_token,ok=ok)
+#         generated_token = UserLogic.user_login(email, password)
+#         return UserLogin(token=generated_token,ok=ok)
 
 
 
@@ -80,4 +80,27 @@ class UserMutations(ObjectType):
 
 
 
+""" 
+Vendor will be create by admin , on creation
+a email will be sent to the vendor then further action
+
+"""
+
+class CreateVendor(Mutation):
+    vendor = Field(UserField)
+    ok=Boolean()
+    class Arguments:
+        email = String()
+        role = String()
+        
+    
+    def mutate(self, _info,  email,role):
+        ok=True
+        created_vendor =  VendorLogic.create(email, role)
+        return CreateVendor(vendor=created_vendor, ok=ok) 
+
+
+
+class VendorMutation(ObjectType):
+    create_vendor = CreateVendor.Field();
 

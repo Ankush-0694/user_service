@@ -42,7 +42,16 @@ class UserData():
         user.delete()
         print(user)
         return user
-    
+
+
+class VendorData():
+    def create(email , role ):
+        user = UserModel(           
+            email = email,             
+            role = role
+        )
+        return user.save()
+
 
 
 
