@@ -5,8 +5,8 @@ from mongoengine import connect
 from flask_graphql import GraphQLView
 from graphene_federation import build_schema
 from Constants.constants import *
-from src.user.api.query import AuthQuery, UserQuery, VendorQuery, AdminQuery
-from src.user.api.mutation import UserMutations, AdminMutations, VendorMutations
+from src.user.api.query import AuthQuery, UserQuery
+from src.user.api.mutation import UserMutations
 
 app = Flask(__name__)
 CORS(app)
@@ -16,10 +16,10 @@ app.config['SECRET_KEY'] = secret_key
 connect(host=mongo_url)
 
 
-class Query(UserQuery ,AdminQuery,VendorQuery, AuthQuery,    ObjectType):
+class Query(UserQuery , AuthQuery,    ObjectType):
     pass
 
-class Mutation(UserMutations, AdminMutations, VendorMutations,  ObjectType):
+class Mutation(UserMutations,  ObjectType):
     pass
 
 schema = build_schema(query=Query, mutation=Mutation)
