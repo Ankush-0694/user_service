@@ -1,4 +1,6 @@
 venv/
 Tutorials/
 Constants/
-__pycache__/
+*.pyc
+**__pycache__
+ 
