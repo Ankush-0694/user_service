@@ -1,29 +1,29 @@
 import json
 from graphene import ObjectType, String, Schema, Field,List, ID
-from src.user.logic.logic import AdminLogic, AuthLogic
+from src.user.logic.logic import  AuthLogic
 from src.user.api.Fields import UserField
 from src.user.logic.logic import UserLogic
-from src.user.logic.logic import VendorLogic
+# from src.user.logic.logic import VendorLogic
 
 class UserQuery(ObjectType):
-    get_user = Field(UserField, email=String()) 
-    def resolve_get_user(self,  _info , email):
-         return UserLogic.get(email)
+    get_user_by_email = Field(UserField, email=String()) 
+    def resolve_get_user_by_email(self,  _info , email):
+         return UserLogic.get_user_by_email(email)
 
-    get_all_users = List(UserField, role=String())
-    def resolve_get_all_users(self, _info, role):
-        return UserLogic.get_all_users(role)
+    get_all_users_by_role = List(UserField, role=String())
+    def resolve_get_all_users_by_role(self, _info, role):
+        return UserLogic.get_all_users_by_role(role)
         
 
-class AdminQuery(ObjectType):
-    get_all_admin = List(UserField, role=String()) 
-    def resolve_get_all_admin(self,  _info , ):
-        return AdminLogic.get_all_admin()
+# class AdminQuery(ObjectType):
+#     get_all_admin = List(UserField, role=String()) 
+#     def resolve_get_all_admin(self,  _info , ):
+#         return AdminLogic.get_all_admin()
 
-class VendorQuery(ObjectType):
-    get_all_vendor = List(UserField, role=String()) 
-    def resolve_get_all_vendor(self,  _info , ):
-        return VendorLogic.get_all_vendor()
+# class VendorQuery(ObjectType):
+#     get_all_vendor = List(UserField, role=String()) 
+#     def resolve_get_all_vendor(self,  _info , ):
+#         return VendorLogic.get_all_vendor()
 
 class AuthQuery(ObjectType):
     get_me = Field(UserField) 
