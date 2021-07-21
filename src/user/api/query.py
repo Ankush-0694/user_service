@@ -1,8 +1,8 @@
 import json
 from graphene import ObjectType, String, Schema, Field,List, ID
 from src.user.logic.logic import  AuthLogic
-from src.user.api.Fields import UserField
 from src.user.logic.logic import UserLogic
+from src.user.api.Fields import UserField
 
 
 class UserQuery(ObjectType):
