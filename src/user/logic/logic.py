@@ -5,6 +5,8 @@ from src.utils.jwt import generate_token
 
 
 
+
+
 class UserLogic():
     @staticmethod
     def get_user_by_email(email):  
