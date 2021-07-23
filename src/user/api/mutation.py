@@ -58,17 +58,17 @@ class DeleteUser(Mutation):
 
 # this will be added as a user login
 
-# class UserLogin(Mutation):
-#     token = String()
-#     ok=Boolean()
-#     class Arguments:
-#         email = String()
-#         password = String()
-#     def mutate(self, _info, email, password):
-#         # print(_info.context)
-#         ok = True
-#         generated_token = UserLogic.user_login(email, password)
-#         return UserLogin(token=generated_token,ok=ok)
+class UserLogin(Mutation):
+    token = String()
+    ok=Boolean()
+    class Arguments:
+        email = String()
+        password = String()
+    def mutate(self, _info, email, password):
+        # print(_info.context)
+        ok = True
+        generated_token = UserLogic.user_login(email, password)
+        return UserLogin(token=generated_token,ok=ok)
 
 
 
@@ -76,6 +76,7 @@ class UserMutations(ObjectType):
     create_user = CreateUser.Field()
     update_user = UpdateUser.Field()
     delete_user = DeleteUser.Field()
+    user_login = UserLogin.Field()
 
 
 

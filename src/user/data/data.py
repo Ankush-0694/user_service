@@ -1,3 +1,4 @@
+from mongoengine import errors
 from src.user.data.model import UserModel
 from mongoengine.errors import ValidationError
 
@@ -5,7 +6,8 @@ from mongoengine.errors import ValidationError
 class UserData(): 
     @staticmethod
     def get_user_by_email(email):
-        user = UserModel.objects(email=email).first()     
+        user = UserModel.objects(email=email).first()  
+        
         return user
     
     @staticmethod
@@ -15,6 +17,8 @@ class UserData():
 
     @staticmethod
     def create(first_name, last_name, email, password, role):
+        if(UserModel.objects(email=email).first()):
+            return ValidationError(message="User Already Exists")
         user = UserModel(
             first_name=first_name, 
             last_name =last_name, 
@@ -41,6 +45,14 @@ class UserData():
         user = UserModel.objects(email=email).first()
         user.delete()
         print(user)
+        return user
+    
+    @staticmethod
+    def user_login(email, password):
+        user = UserModel.objects(email=email).first()
+        if not user or  user.password != password:
+            raise ValidationError('You have entered an invalid username or password')
+            
         return user
 
 
