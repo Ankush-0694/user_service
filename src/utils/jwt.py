@@ -26,3 +26,7 @@ def generate_token(email):
 #     role = AdminData.check_admin(userObjectID)
 #     if role!="admin":
 #         raise PermissionError("You Are not an admin")
+
+
+
+# print(_info.context.headers.get("User"))  # for getting header data

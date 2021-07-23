@@ -32,6 +32,15 @@ class UserLogic():
     def delete(email):
         user = UserData.delete(email)
         return user
+    
+    @staticmethod
+    def user_login(email, password):
+        user = UserData.user_login(email, password)
+        token = generate_token(email)
+        print(token)
+        return token;
+        
+
 
 
 class VendorLogic():
