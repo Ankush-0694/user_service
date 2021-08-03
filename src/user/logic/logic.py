@@ -36,12 +36,13 @@ class UserLogic():
     @staticmethod
     def user_login(email, password):
         user = UserData.user_login(email, password)
-        token = generate_token(email)
+        role = user["role"]
+
+        """ Generating token  """
+        token = generate_token(email, role)
         print(token)
         return token;
         
-
-
 
 class VendorLogic():
     def create(email, role):

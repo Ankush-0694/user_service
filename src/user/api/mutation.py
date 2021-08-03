@@ -82,11 +82,9 @@ class UserMutations(ObjectType):
 
 
 """ 
-Vendor will be create by admin , on creation
+Vendor will be created by admin , on creation
 a email will be sent to the vendor then further action
-
 """
-
 class CreateVendor(Mutation):
     vendor = Field(UserField)
     ok=Boolean()
