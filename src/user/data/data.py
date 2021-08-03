@@ -71,4 +71,6 @@ class AuthData():
     @staticmethod
     def get(email):
         me = UserModel.objects(email=email).first()
+        if not me:
+            raise ValidationError("User not found")
         return me

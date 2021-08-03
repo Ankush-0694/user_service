@@ -2,9 +2,11 @@ import jwt
 from Constants.constants import *
 
 # helper function for generating jwt
-def generate_token(email):
+def generate_token(email, role):
         token = jwt.encode({
             'public_id': email,
+            'role': role
+            
         }, secret_key, algorithm="HS256")
         token = token.decode('UTF-8')
         return token
