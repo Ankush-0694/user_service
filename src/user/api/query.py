@@ -26,6 +26,7 @@ class AuthQuery(ObjectType):
         check_token(auth_header)
 
         
-        email_id_dict = json.loads(auth_header)
-        email = email_id_dict["public_id"]     
-        return AuthLogic.get(email)  
+        user_dict = json.loads(auth_header)
+        print(user_dict)
+        userId = user_dict["public_id"]     
+        return AuthLogic.get(userId)  

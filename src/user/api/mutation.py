@@ -1,5 +1,6 @@
 from graphene.types.scalars import Boolean
 from graphene import ObjectType, Mutation, String, Field
+from mongoengine.fields import StringField
 from src.user.api.Fields import UserField
 from bson.objectid import ObjectId
 from src.user.logic.logic import UserLogic, VendorLogic
@@ -31,13 +32,12 @@ class UpdateUser(Mutation):
         first_name = String()
         last_name = String()
         email = String()
-        password = String()
         role = String()
        
-    def mutate(self, _info, first_name, last_name, email, password, role):     
+    def mutate(self, _info, first_name, last_name, email, role):     
         print(_info.context.headers.get("User")) 
         ok=True
-        updated_user = UserLogic.update(first_name, last_name , email, password ,role  )
+        updated_user = UserLogic.update(first_name, last_name , email ,role  )
         return UpdateUser(user=updated_user, ok=ok)
 
 
@@ -64,10 +64,11 @@ class UserLogin(Mutation):
     class Arguments:
         email = String()
         password = String()
-    def mutate(self, _info, email, password):
+        role = String()
+    def mutate(self, _info, email, password, role):
         # print(_info.context)
         ok = True
-        generated_token = UserLogic.user_login(email, password)
+        generated_token = UserLogic.user_login(email, password, role)
         return UserLogin(token=generated_token,ok=ok)
 
 
@@ -96,10 +97,24 @@ class CreateVendor(Mutation):
     def mutate(self, _info,  email,role):
         ok=True
         created_vendor =  VendorLogic.create(email, role)
-        return CreateVendor(vendor=created_vendor, ok=ok) 
+        return CreateVendor(vendor=created_vendor, ok=ok)
+
+class GeneratePassword(Mutation):
+    success_msg = String()
+    ok=Boolean()
+    class Arguments:
+        password = String()
+        verify_token = String()
+        
+    
+    def mutate(self, _info,  password,verify_token):
+        ok=True
+        created_vendor =  VendorLogic.generate_password(password, verify_token)
+        return GeneratePassword(success_msg="Password Generate Successfully", ok=ok)
 
 
 
 class VendorMutation(ObjectType):
-    create_vendor = CreateVendor.Field();
+    create_vendor = CreateVendor.Field()
+    generate_password = GeneratePassword.Field()
 
