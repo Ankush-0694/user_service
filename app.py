@@ -4,7 +4,7 @@ from graphene.types.objecttype import ObjectType
 from mongoengine import connect
 from flask_graphql import GraphQLView
 from graphene_federation import build_schema
-from Constants.constants import *
+from Constants.constants import SECRET_KEY, MONGO_URL, SENDGRID_API_KEY, SENDER_EMAIL
 from flask_mail import Mail, Message
 from src.user.api.query import AuthQuery, UserQuery
 from src.user.api.mutation import UserMutations, VendorMutation
@@ -13,20 +13,20 @@ app = Flask(__name__)
 CORS(app)
 
 """ For storing the secret - JWT """
-app.config['SECRET_KEY'] = secret_key
+app.config['SECRET_KEY'] = SECRET_KEY
 
 """ Configuration for mail """
-app.config['MAIL_SERVER']='smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = email_username
-app.config['MAIL_PASSWORD'] = email_password
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_MAX_EMAILS'] = 10
+app.config['MAIL_SERVER'] = 'smtp.sendgrid.net'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'apikey'
+app.config['MAIL_PASSWORD'] = SENDGRID_API_KEY
+app.config['MAIL_DEFAULT_SENDER'] = SENDER_EMAIL
 
 mail = Mail(app)
 
-connect(host=mongo_url)
+
+connect(host=MONGO_URL)
 
 class Query(UserQuery , AuthQuery,    ObjectType):
     pass
@@ -49,11 +49,7 @@ def hello_world():
     return 'Hello, World!'
 
 
-@app.route('/sendEmail')
-def send_email():
-    msg = Message('hey there' ,sender=email_username, recipients=email_receiver)
-    mail.send(msg)
-    return 'Mail sent'
+
 
  
 if __name__ == "__main__":

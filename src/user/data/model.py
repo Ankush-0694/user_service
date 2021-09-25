@@ -1,3 +1,4 @@
+from enum import unique
 from mongoengine.document import Document
 from mongoengine.errors import ValidationError
 from mongoengine.fields import  StringField, EmailField
@@ -8,10 +9,11 @@ def _not_empty(val):
         raise ValidationError('Value can not be empty')
 
 class UserModel(Document):
-    first_name = StringField(validation=_not_empty)
-    last_name = StringField(validation=_not_empty)
-    email= StringField(validation=_not_empty)
-    password = StringField(validation=_not_empty)
+    first_name = StringField()
+    last_name = StringField()
+    email= StringField(validation=_not_empty, unique=True)
+    password = StringField()
+    verify_token = StringField()
     role = StringField()
 
 
