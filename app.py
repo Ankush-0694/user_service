@@ -8,6 +8,7 @@ from Constants.constants import SECRET_KEY, MONGO_URL, SENDGRID_API_KEY, SENDER_
 from flask_mail import Mail, Message
 from src.user.api.query import AuthQuery, UserQuery
 from src.user.api.mutation import UserMutations, VendorMutation
+import os 
 
 app = Flask(__name__)
 CORS(app)
@@ -50,10 +51,10 @@ def hello_world():
 
 
 
-
+port = int(os.environ.get('PORT', 4000))
  
 if __name__ == "__main__":
-    app.run(debug=True , port = 4000)
+    app.run(debug=True , port = port)
 
 
 

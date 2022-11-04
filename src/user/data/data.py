@@ -57,7 +57,7 @@ class UserData():
         # we need to match both role and email 
         #if we match only email then other user can login from another login page
 
-        
+        print(email, password)
 
         user = UserModel.objects(email=email).first()
         if not user or  user.password != password:
